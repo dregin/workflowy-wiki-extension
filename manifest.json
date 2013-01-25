@@ -1,0 +1,19 @@
+{
+  "name": "Workflowy Wiki Extension",
+  "version": "0.1.0",
+  "description": "An Extension to allow worklfowy items link to a wiki page",
+  "options_page": "settings.html",
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+      ]
+    }
+  ]
+}
+
