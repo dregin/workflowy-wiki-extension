@@ -2,14 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// Store CSS data in the "local" storage area.
+// Store wiki URL data in the "local" storage area.
 //
 // Usually we try to store settings in the "sync" area since a lot of the time
 // it will be a better user experience for settings to automatically sync
 // between browsers.
 //
 // However, "sync" is expensive with a strict quota (both in storage space and
-// bandwidth) so data that may be as large and updated as frequently as the CSS
+// bandwidth) so data that may be as large and updated as frequently as the wiki URL/workflowy item IDs
 // may not be suitable.
 var storage = chrome.storage.local;
 
@@ -18,34 +18,34 @@ var resetButton = document.querySelector('button.reset');
 var submitButton = document.querySelector('button.submit');
 var textarea = document.querySelector('textarea');
 
-// Load any CSS that may have previously been saved.
+// Load wiki URL that may have previously been saved.
 loadChanges();
 
 submitButton.addEventListener('click', saveChanges);
 resetButton.addEventListener('click', reset);
 
 function saveChanges() {
-  // Get the current CSS snippet from the form.
-  var cssCode = textarea.value;
+  // Get the current wiki URL from the form.
+  var wiki_url = textarea.value;
   // Check that there's some code there.
-  if (!cssCode) {
-    message('Error: No CSS specified');
+  if (!wiki_url) {
+    message('Error: No wiki URL specified');
     return;
   }
   // Save it using the Chrome extension storage API.
-  storage.set({'css': cssCode}, function() {
+  storage.set({'wiki_url': wiki_url}, function() {
     // Notify that we saved.
     message('Settings saved');
   });
 }
 
 function loadChanges() {
-  storage.get('css', function(items) {
-    // To avoid checking items.css we could specify storage.get({css: ''}) to
-    // return a default value of '' if there is no css value yet.
-    if (items.css) {
-      textarea.value = items.css;
-      message('Loaded saved CSS.');
+  storage.get('wiki_url', function(items) {
+    // To avoid checking items.wiki_url we could specify storage.get({wiki_url: ''}) to
+    // return a default value of '' if there is no wiki_url value yet.
+    if (items.wiki_url) {
+      textarea.value = items.wiki_url;
+      message('Loaded saved wiki URL.');
     }
   });
 }
@@ -53,8 +53,8 @@ function loadChanges() {
 function reset() {
   // Remove the saved value from storage. storage.clear would achieve the same
   // thing.
-  storage.remove('css', function(items) {
-    message('Reset stored CSS');
+  storage.remove('wiki_url', function(items) {
+    message('Reset stored wiki URL');
   });
   // Refresh the text area.
   textarea.value = '';
