@@ -10,7 +10,7 @@ var observer = new WebKitMutationObserver(function(mutations) {
 		controlDiv.insertBefore(wikiLink, controlDiv.childNodes[1]);
 
 		document.getElementById('wikiLink').addEventListener('click', function() {
-	    	console.log("Wiki Link clicked!");
+	    	console.log("Wiki Link clicked: " + this.parentNode.parentNode.parentNode.parentNode.parentNode.attributes["projectid"].value);
 			});
  	})
 });
