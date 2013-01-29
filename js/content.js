@@ -15,17 +15,26 @@ var observer = new WebKitMutationObserver(function(mutations) {
 	    	var projectId = this.parentNode.parentNode.parentNode.parentNode.parentNode.attributes["projectid"].value;
 	    	var storage = chrome.storage.local;
 
-	    	var projectIdObj = {}
-	    	projectIdObj[projectId] = 'true';
-	    	storage.set(projectIdObj, function() {
-	    		console.log("project ID Saved: " + projectId);
-	    	});
-
 	    	// Get Project ID from local storage.
 	    	// Do for every item and change item to link if project ID key has "true" value.
-	    	storage.get('projectId', function(fetchedData) {
-			    console.log("Project ID saved: " + fetchedData.projectId);
+
+	    	var projectIdObj = {}
+			projectIdObj[projectId] = 'true';
+
+	    	storage.get(projectId, function(fetchedData) {
+			    if(fetchedData[projectId] !== undefined) {
+			    	  storage.remove(projectId, function(items) {
+					    //console.log("project ID Removed: " + projectId);
+					  });
+			    }
+			    else {
+			    	storage.set(projectIdObj, function() {
+			    		//console.log("project ID Saved: " + projectId);
+			    	});
+			    }
 			});
+
+			// Make current items in DOM links, if they've been set as such.
 		});
  	})
 });
